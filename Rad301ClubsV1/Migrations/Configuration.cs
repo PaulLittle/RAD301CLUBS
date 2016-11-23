@@ -3,7 +3,9 @@ namespace Rad301ClubsV1.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
+    using Models.ClubModel;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -15,6 +17,7 @@ namespace Rad301ClubsV1.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
+        
         protected override void Seed(Rad301ClubsV1.Models.ApplicationDbContext context)
         {
             var manager =
@@ -25,11 +28,10 @@ namespace Rad301ClubsV1.Migrations
                 new RoleManager<IdentityRole>(
                     new RoleStore<IdentityRole>(context));
 
-
-
             roleManager.Create(new IdentityRole { Name = "Admin" });
             roleManager.Create(new IdentityRole { Name = "ClubAdmin" });
             roleManager.Create(new IdentityRole { Name = "Member" });
+            context.SaveChanges();//I put this in
 
             context.Users.AddOrUpdate(u => u.Email, new ApplicationUser
             {
@@ -63,15 +65,14 @@ namespace Rad301ClubsV1.Migrations
                 PasswordHash = new PasswordHasher().HashPassword("SS00000001$1"),
                 SecurityStamp = Guid.NewGuid().ToString(),
             });
+            
 
             ApplicationUser admin = manager.FindByEmail("powell.paul@itsligo.ie");
             if (admin != null)
             {
                 manager.AddToRoles(admin.Id, new string[] { "Admin", "Member", "ClubAdmin" });
             }
-            else {
-                throw new Exception { Source = "Did not find user" };
-            }
+            
 
             ApplicationUser member = manager.FindByEmail("S12345678@mail.itsligo.ie");
             if (member != null)
@@ -84,7 +85,36 @@ namespace Rad301ClubsV1.Migrations
             {
                 manager.AddToRoles(clubAdmin.Id, new string[] { "ClubAdmin" });
             }
-
+            SeedStudents(context);
         }
+        public void SeedStudents(ApplicationDbContext current)
+        {
+            List<Student> selectedStudents = new List<Student>();
+            using (ClubContext ctx = new ClubContext())
+            {
+                var randomStudentSet = ctx.Students
+                    .Select(s => new { s.StudentID, r = Guid.NewGuid() });
+
+                var subset = randomStudentSet.OrderBy(s => s.r).Take(10).ToList();
+
+                selectedStudents = (from student in ctx.Students
+                                    join sub in subset
+                                    on student.StudentID equals sub.StudentID
+                                    select student).ToList();
+
+                Club chosen = ctx.Clubs.First();
+                foreach (Student s in selectedStudents)
+                {
+                    ctx.members.AddOrUpdate(m => m.StudentID,
+                        new Member
+                        {
+                            ClubId = chosen.ClubId,
+                            StudentID = s.StudentID,
+                        });
+                }
+                ctx.SaveChanges();
+            }
+        }
+        // Add application users
     }
 }

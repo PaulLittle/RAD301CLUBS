@@ -12,40 +12,41 @@
 </form>
 
 <p>
-    @if (User.IsInRole("Admin"))
-    { Html.ActionLink("Create New", "Create"); }
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ClubName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.adminID)
-        </th>
-        <th></th>
-    </tr>
+   @* @if (User.IsInRole("Admin"))*@
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("View all events", "AllClubDetails");
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adminID)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClubName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.adminID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ClubId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ClubId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ClubId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adminID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ClubId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ClubId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ClubId })
+            </td>
+        </tr>
+    }
 
-</table>
+    </table>
