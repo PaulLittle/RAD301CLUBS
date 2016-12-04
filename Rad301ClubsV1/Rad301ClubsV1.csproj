@@ -189,6 +189,7 @@
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -296,6 +297,14 @@
     <Content Include="Views\ClubEvents\Edit.cshtml" />
     <Content Include="Views\ClubEvents\Index.cshtml" />
     <Content Include="Views\ClubEvents\_ClubEvents.cshtml" />
+    <Content Include="Views\Clubs\MemberDetails.cshtml" />
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Members\_ClubMembers.cshtml" />
+    <Content Include="Views\ClubEvents\_CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

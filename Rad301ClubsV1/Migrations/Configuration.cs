@@ -85,36 +85,57 @@ namespace Rad301ClubsV1.Migrations
             {
                 manager.AddToRoles(clubAdmin.Id, new string[] { "ClubAdmin" });
             }
-            SeedStudents(context);
+            //SeedStudents(context);
         }
         public void SeedStudents(ApplicationDbContext current)
         {
+
             List<Student> selectedStudents = new List<Student>();
+
             using (ClubContext ctx = new ClubContext())
             {
                 var randomStudentSet = ctx.Students
                     .Select(s => new { s.StudentID, r = Guid.NewGuid() });
 
-                var subset = randomStudentSet.OrderBy(s => s.r).Take(10).ToList();
+                List<string> subset = randomStudentSet.OrderBy(s => s.r).Select(s => s.StudentID).Take(10).ToList();
 
-                selectedStudents = (from student in ctx.Students
-                                    join sub in subset
-                                    on student.StudentID equals sub.StudentID
-                                    select student).ToList();
+                foreach (string s in subset)
+                {
+                    selectedStudents.Add(
+                        ctx.Students.First(st => st.StudentID == s)
+                        );
+                }
 
                 Club chosen = ctx.Clubs.First();
+
                 foreach (Student s in selectedStudents)
                 {
                     ctx.members.AddOrUpdate(m => m.StudentID,
                         new Member
                         {
                             ClubId = chosen.ClubId,
-                            StudentID = s.StudentID,
+                            StudentID = s.StudentID
                         });
                 }
                 ctx.SaveChanges();
             }
+
+            // Add application users 
+            foreach (Student s in selectedStudents)
+            {
+                current.Users.AddOrUpdate(u => u.StudentID,
+                    new ApplicationUser
+                    {
+                        StudentID = s.StudentID,
+                        UserName = s.StudentID + "@mail.itsligo.ie",
+                        Email = s.StudentID + "@mail.itsligo.ie",
+                        EmailConfirmed = true,
+                        DateJoined = DateTime.Now,
+                        PasswordHash = new PasswordHasher().HashPassword(s.StudentID + "$1"),
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                    });
+            }
+            current.SaveChanges();
         }
-        // Add application users
     }
 }

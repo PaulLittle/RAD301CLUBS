@@ -6,17 +6,22 @@
 
 <h2>Index</h2>
 @* A form to post back to the same controller a search term *@
-<form method="get">
+<form method="get" class="form-group">
     <input type="search" name="ClubName"/>
-    <input type= "submit" name="Search by Club name"/>
+    <input type= "submit" name="Search by Club Name" class="btn btn-primary btn-xs" value="Search by Club Name"/>
 </form>
 
-<p>
-   @* @if (User.IsInRole("Admin"))*@
-    @Html.ActionLink("Create New", "Create") |
-    @Html.ActionLink("View all events", "AllClubDetails");
-    </p>
-    <table class="table">
+<p class="form-group">
+    @* @if (User.IsInRole("Admin"))*@
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("View all events", "AllClubDetails", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Club List</strong>
+    </div>
+    <table class="table table-hover table-condensed">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ClubName)
@@ -30,23 +35,26 @@
             <th></th>
         </tr>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClubName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.adminID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ClubId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ClubId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ClubId })
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClubName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.adminID)
+                </td>
+                <td>
+                    @Html.ActionLink("View Members", "MemberDetails", new { id = item.ClubId }, new {@class = "btn btn-primary btn-xs" })
+                    @Html.ActionLink("View Events", "Edit", new { id = item.ClubId }, new { @class = "btn btn-primary btn-xs" })
+                    @Html.ActionLink("Details", "Details", new { id = item.ClubId }, new { @class = "btn btn-primary btn-xs" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ClubId }, new { @class = "btn btn-danger btn-xs" })
+                </td>
+            </tr>
+        }
 
     </table>
+</div>

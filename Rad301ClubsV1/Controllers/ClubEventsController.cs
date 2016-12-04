@@ -127,6 +127,11 @@ namespace Rad301ClubsV1.Controllers
             var qry = db.ClubEvents.Where(ce => ce.ClubId == id).ToList();
             return PartialView(qry);
         }
+
+        public PartialViewResult _CreateEvent(int id)
+        {
+            return PartialView();
+        }
         #endregion
 
         protected override void Dispose(bool disposing)

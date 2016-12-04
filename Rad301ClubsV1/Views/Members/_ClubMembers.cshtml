@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Rad301ClubsV1.Models.ClubModel.Member>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Member List</strong>
+    </div>
+    <table class="table table-hover table-condensed">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.student.Fname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.student.Sname)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.approved)
+                </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.student.Fname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.student.Sname)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.approved)
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-xs" })
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-xs" })
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-danger btn-xs" })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    </div>
