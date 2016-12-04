@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" }
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" })
 </p>
 <table class="table">
     <tr>
@@ -49,7 +49,7 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.EventID }, new { @class = "btn btn-primary btn-xs" })
             @Html.ActionLink("Details", "Details", new { id=item.EventID }, new { @class = "btn btn-primary btn-xs" })
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventID }, new { @class = "btn btn-primary btn-xs" })
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventID }, new { @class = "btn btn-primary btn-danger btn-xs" })
         </td>
     </tr>
 }
